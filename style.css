@@ -1,0 +1,504 @@
+/* ============================================================
+   style.css  –  To-Do Life Dashboard
+   ============================================================ */
+
+/* ── 1. CSS Variables ── */
+:root {
+  --radius:     14px;
+  --radius-sm:   8px;
+  --radius-pill: 999px;
+  --gap:         18px;
+  --transition:  0.22s ease;
+  --font:       'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  /* accent shared between themes */
+  --accent:       #6c63ff;
+  --accent-hover: #8077ff;
+  --danger:       #e05555;
+  --danger-hover: #c94444;
+}
+
+/* ── Dark theme ── */
+[data-theme="dark"] {
+  --bg-page:    #2d2b55;          /* deep violet page bg */
+  --bg-grad:    linear-gradient(135deg, #2d2b55 0%, #4a3f8a 60%, #6b5fb5 100%);
+  --bg-card:    #1e1d3a;
+  --bg-input:   #2a2848;
+  --border:     #3d3b65;
+  --text:       #eceaf8;
+  --text-muted: #9894c8;
+  --text-label: #b0adda;
+  --shadow:     0 6px 24px rgba(0,0,0,0.45);
+  --clock-color: #7c73ff;
+}
+
+/* ── Light theme (matches reference image) ── */
+[data-theme="light"] {
+  --bg-page:    #6c63ff;
+  --bg-grad:    linear-gradient(135deg, #6c63ff 0%, #9b8fff 50%, #c9b8ff 100%);
+  --bg-card:    #ffffff;
+  --bg-input:   #f4f3ff;
+  --border:     #e0ddf8;
+  --text:       #1e1b3a;
+  --text-muted: #6b68a0;
+  --text-label: #4a4780;
+  --shadow:     0 4px 18px rgba(108,99,255,0.15);
+  --clock-color: #6c63ff;
+}
+
+/* ── 2. Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family:      var(--font);
+  background:       var(--bg-grad);
+  background-attachment: fixed;
+  color:            var(--text);
+  min-height:       100vh;
+  transition:       background var(--transition), color var(--transition);
+}
+
+/* ── 3. Top bar ── */
+.topbar {
+  display:          flex;
+  justify-content:  space-between;
+  align-items:      center;
+  padding:          10px 24px;
+  background:       rgba(255,255,255,0.08);
+  backdrop-filter:  blur(8px);
+  border-bottom:    1px solid rgba(255,255,255,0.12);
+}
+
+.topbar__left,
+.topbar__right { display: flex; align-items: center; gap: 8px; }
+
+.btn-icon {
+  background:    rgba(255,255,255,0.12);
+  border:        1px solid rgba(255,255,255,0.2);
+  color:         #fff;
+  cursor:        pointer;
+  font-size:     1.1rem;
+  line-height:   1;
+  padding:       6px 10px;
+  border-radius: var(--radius-sm);
+  transition:    background var(--transition);
+  display:       flex;
+  align-items:   center;
+  gap:           6px;
+  font-weight:   600;
+  font-family:   var(--font);
+}
+.btn-icon:hover { background: rgba(255,255,255,0.22); }
+
+/* ── 4. Outer wrapper ── */
+.dashboard-wrapper {
+  padding:    var(--gap) 20px 40px;
+  max-width:  960px;
+  margin:     0 auto;
+  display:    flex;
+  flex-direction: column;
+  gap:        var(--gap);
+}
+
+/* ── 5. Card base ── */
+.card {
+  background:    var(--bg-card);
+  border-radius: var(--radius);
+  padding:       22px 24px;
+  box-shadow:    var(--shadow);
+  transition:    background var(--transition), box-shadow var(--transition);
+}
+
+.card__title {
+  font-size:      0.78rem;
+  font-weight:    700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+  margin-bottom:  14px;
+}
+
+/* ── 6. Greeting / Clock card (full width) ── */
+.greeting-card {
+  text-align: center;
+  padding:    30px 24px 26px;
+}
+
+.clock {
+  font-size:   clamp(2.8rem, 7vw, 4.2rem);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color:       var(--clock-color);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.date {
+  font-size:  0.95rem;
+  color:      var(--text-muted);
+  margin-top: 6px;
+}
+
+.greeting {
+  font-size:   1.35rem;
+  font-weight: 700;
+  margin-top:  10px;
+  color:       var(--text);
+}
+
+/* ── 7. Two-column row ── */
+.row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap:     var(--gap);
+}
+
+/* ── 8. Focus Timer ── */
+.timer-card { text-align: center; }
+
+.timer__settings {
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  gap:           8px;
+  margin-bottom: 14px;
+  flex-wrap:     wrap;
+  font-size:     0.85rem;
+  color:         var(--text-muted);
+}
+
+.timer__input {
+  width:         58px;
+  padding:       5px 8px;
+  background:    var(--bg-input);
+  border:        1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color:         var(--text);
+  font-size:     0.85rem;
+  text-align:    center;
+  transition:    border-color var(--transition);
+}
+.timer__input:focus {
+  outline:      none;
+  border-color: var(--accent);
+}
+
+.timer__display {
+  font-size:   clamp(2.8rem, 7vw, 4rem);
+  font-weight: 800;
+  color:       var(--clock-color);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  margin:      8px 0 20px;
+  transition:  color var(--transition);
+  line-height: 1;
+}
+.timer__display.running  { color: #22c55e; }
+.timer__display.finished { color: var(--danger); }
+
+.timer__controls {
+  display:        flex;
+  gap:            10px;
+  justify-content: center;
+  flex-wrap:      wrap;
+}
+
+/* ── 9. Buttons ── */
+.btn {
+  display:        inline-flex;
+  align-items:    center;
+  justify-content: center;
+  padding:        8px 22px;
+  border:         none;
+  border-radius:  var(--radius-sm);
+  font-size:      0.88rem;
+  font-weight:    600;
+  cursor:         pointer;
+  transition:     background var(--transition), transform 0.1s;
+  font-family:    var(--font);
+}
+.btn:active { transform: scale(0.95); }
+
+.btn--primary {
+  background: var(--accent);
+  color:      #fff;
+}
+.btn--primary:hover { background: var(--accent-hover); }
+
+.btn--secondary {
+  background: var(--bg-input);
+  color:      var(--text);
+  border:     1px solid var(--border);
+}
+.btn--secondary:hover { background: var(--border); }
+
+.btn--small {
+  padding:    4px 12px;
+  font-size:  0.78rem;
+  background: var(--accent);
+  color:      #fff;
+}
+.btn--small:hover { background: var(--accent-hover); }
+
+.btn--delete {
+  padding:    5px 14px;
+  font-size:  0.82rem;
+  font-weight: 600;
+  background: var(--danger);
+  color:      #fff;
+  border:     none;
+  border-radius: var(--radius-sm);
+  cursor:     pointer;
+  transition: background var(--transition), transform 0.1s;
+  font-family: var(--font);
+  flex-shrink: 0;
+}
+.btn--delete:hover   { background: var(--danger-hover); }
+.btn--delete:active  { transform: scale(0.95); }
+
+/* ── 10. To-do list ── */
+.todo-card { display: flex; flex-direction: column; }
+
+.todo__form {
+  display:       flex;
+  gap:           8px;
+  margin-bottom: 14px;
+}
+
+.todo__input {
+  flex:          1;
+  padding:       8px 12px;
+  background:    var(--bg-input);
+  border:        1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color:         var(--text);
+  font-size:     0.9rem;
+  font-family:   var(--font);
+  transition:    border-color var(--transition);
+}
+.todo__input:focus {
+  outline:      none;
+  border-color: var(--accent);
+}
+.todo__input::placeholder { color: var(--text-muted); }
+
+.todo__list {
+  list-style: none;
+  display:    flex;
+  flex-direction: column;
+  gap:        8px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.todo__item {
+  display:       flex;
+  align-items:   center;
+  gap:           10px;
+  padding:       9px 10px;
+  background:    var(--bg-input);
+  border:        1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.todo__item.done .todo__text {
+  text-decoration: line-through;
+  opacity:         0.45;
+}
+
+.todo__checkbox {
+  width:        17px;
+  height:       17px;
+  accent-color: var(--accent);
+  flex-shrink:  0;
+  cursor:       pointer;
+}
+
+.todo__text {
+  flex:       1;
+  font-size:  0.9rem;
+  word-break: break-word;
+}
+
+.todo__edit-input {
+  flex:          1;
+  padding:       4px 8px;
+  background:    var(--bg-card);
+  border:        1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  color:         var(--text);
+  font-size:     0.9rem;
+  font-family:   var(--font);
+}
+.todo__edit-input:focus { outline: none; }
+
+.todo__actions { display: flex; gap: 4px; }
+
+.btn--edit {
+  background:  transparent;
+  border:      none;
+  cursor:      pointer;
+  font-size:   1rem;
+  padding:     2px 6px;
+  border-radius: var(--radius-sm);
+  color:       var(--text-muted);
+  transition:  background var(--transition);
+}
+.btn--edit:hover { background: var(--bg-input); color: var(--accent); }
+
+.todo__empty {
+  text-align: center;
+  color:      var(--text-muted);
+  font-size:  0.85rem;
+  margin-top: 10px;
+  padding:    12px 0;
+}
+
+/* ── 11. Quick links ── */
+.links__form {
+  display:    flex;
+  gap:        8px;
+  flex-wrap:  wrap;
+  margin-bottom: 14px;
+}
+
+.links__input {
+  flex:          1;
+  min-width:     100px;
+  padding:       8px 12px;
+  background:    var(--bg-input);
+  border:        1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color:         var(--text);
+  font-size:     0.88rem;
+  font-family:   var(--font);
+  transition:    border-color var(--transition);
+}
+.links__input:focus {
+  outline:      none;
+  border-color: var(--accent);
+}
+.links__input::placeholder { color: var(--text-muted); }
+
+/* "Add Link" button matches reference */
+.btn--add-link {
+  padding:    8px 16px;
+  background: var(--accent);
+  color:      #fff;
+  border:     none;
+  border-radius: var(--radius-sm);
+  font-size:  0.88rem;
+  font-weight: 700;
+  cursor:     pointer;
+  white-space: nowrap;
+  font-family: var(--font);
+  transition: background var(--transition);
+}
+.btn--add-link:hover { background: var(--accent-hover); }
+
+.links__list {
+  display:   flex;
+  flex-wrap: wrap;
+  gap:       8px;
+}
+
+/* Pill link buttons (purple, with ✕) matching reference */
+.link__item {
+  display:       flex;
+  align-items:   center;
+  background:    var(--accent);
+  border-radius: var(--radius-pill);
+  overflow:      hidden;
+  transition:    background var(--transition);
+}
+.link__item:hover { background: var(--accent-hover); }
+
+.link__btn {
+  padding:     7px 14px 7px 16px;
+  background:  transparent;
+  border:      none;
+  color:       #fff;
+  font-size:   0.85rem;
+  font-weight: 600;
+  cursor:      pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  display:     flex;
+  align-items: center;
+  gap:         6px;
+  font-family: var(--font);
+}
+
+.link__remove {
+  background:  transparent;
+  border:      none;
+  color:       rgba(255,255,255,0.75);
+  cursor:      pointer;
+  padding:     7px 12px 7px 2px;
+  font-size:   0.78rem;
+  line-height: 1;
+  transition:  color var(--transition);
+}
+.link__remove:hover { color: #fff; }
+
+.todo__empty { /* reused for links empty state */ }
+
+/* ── 12. Modal ── */
+.modal {
+  position:   fixed;
+  inset:      0;
+  background: rgba(0,0,0,0.55);
+  display:    flex;
+  align-items: center;
+  justify-content: center;
+  z-index:    200;
+  backdrop-filter: blur(5px);
+}
+.modal[hidden] { display: none; }
+
+.modal__box {
+  background:    var(--bg-card);
+  border-radius: var(--radius);
+  padding:       32px;
+  width:         min(400px, 90vw);
+  box-shadow:    0 12px 40px rgba(0,0,0,0.35);
+  display:       flex;
+  flex-direction: column;
+  gap:           14px;
+}
+.modal__box h2 { font-size: 1.15rem; color: var(--text); }
+
+.modal__input {
+  padding:       10px 14px;
+  background:    var(--bg-input);
+  border:        1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color:         var(--text);
+  font-size:     1rem;
+  font-family:   var(--font);
+  transition:    border-color var(--transition);
+}
+.modal__input:focus {
+  outline:      none;
+  border-color: var(--accent);
+}
+
+.modal__actions {
+  display:        flex;
+  gap:            10px;
+  justify-content: flex-end;
+}
+
+/* ── 13. Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── 14. Responsive ── */
+@media (max-width: 640px) {
+  .row-2col {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-wrapper { padding: 14px 12px 36px; }
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Life Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ───────────── TOP BAR ───────────── -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <!-- Challenge 1: Dark / Light mode toggle -->
+      <button id="themeToggle" class="btn-icon" title="Toggle theme" aria-label="Toggle theme">🌙 Dark</button>
+    </div>
+    <div class="topbar__right">
+      <!-- Challenge 2: Custom name -->
+      <button id="editNameBtn" class="btn-icon" title="Set your name" aria-label="Set your name">✏️ Set Name</button>
+    </div>
+  </header>
+
+  <div class="dashboard-wrapper">
+
+    <!-- ───────────── CLOCK + GREETING (full width) ───────────── -->
+    <section class="card greeting-card" aria-label="Greeting and time">
+      <p  id="clock"       class="clock"></p>
+      <p  id="dateDisplay" class="date"></p>
+      <h1 id="greeting"    class="greeting"></h1>
+    </section>
+
+    <!-- ───────────── 2-COLUMN ROW: Timer | Tasks ───────────── -->
+    <div class="row-2col">
+
+      <!-- Focus Timer -->
+      <section class="card timer-card" aria-label="Focus timer">
+        <h2 class="card__title">Focus Timer</h2>
+
+        <!-- Challenge 3: Change Pomodoro time -->
+        <div class="timer__settings">
+          <label for="pomodoroMinutes">Minutes:</label>
+          <input  id="pomodoroMinutes" type="number" min="1" max="120" value="25"
+                  class="timer__input" aria-label="Pomodoro duration in minutes" />
+          <button id="applyTime" class="btn btn--small">Apply</button>
+        </div>
+
+        <div id="timerDisplay" class="timer__display" aria-live="polite">25:00</div>
+
+        <div class="timer__controls">
+          <button id="startTimer" class="btn btn--primary">Start</button>
+          <button id="stopTimer"  class="btn btn--secondary">Stop</button>
+          <button id="resetTimer" class="btn btn--secondary">Reset</button>
+        </div>
+      </section>
+
+      <!-- Tasks -->
+      <section class="card todo-card" aria-label="To-do list">
+        <h2 class="card__title">Tasks</h2>
+
+        <form id="todoForm" class="todo__form" novalidate>
+          <input id="todoInput" type="text" placeholder="Add a new task…"
+                 class="todo__input" maxlength="120" aria-label="New task" />
+          <button type="submit" class="btn btn--primary">Add</button>
+        </form>
+
+        <ul id="todoList" class="todo__list" aria-label="Task list"></ul>
+        <p  id="todoEmpty" class="todo__empty">No tasks yet. Add one above!</p>
+      </section>
+
+    </div><!-- /.row-2col -->
+
+    <!-- ───────────── QUICK LINKS (full width) ───────────── -->
+    <section class="card links-card" aria-label="Quick links">
+      <h2 class="card__title">Quick Links</h2>
+
+      <form id="linkForm" class="links__form" novalidate>
+        <input id="linkName" type="text" placeholder="Link name"  class="links__input" aria-label="Link label" maxlength="30" />
+        <input id="linkUrl"  type="url"  placeholder="URL"        class="links__input" aria-label="Link URL" />
+        <button type="submit" class="btn--add-link">Add Link</button>
+      </form>
+
+      <div id="linkList"  class="links__list" aria-label="Quick link buttons"></div>
+      <p   id="linkEmpty" class="todo__empty" style="display:none">No links saved yet.</p>
+    </section>
+
+  </div><!-- /.dashboard-wrapper -->
+
+  <!-- ───────────── NAME MODAL ───────────── -->
+  <div id="nameModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal__box">
+      <h2 id="modalTitle">What's your name?</h2>
+      <input id="nameInput" type="text" placeholder="Enter your name"
+             class="modal__input" maxlength="40" aria-label="Your name" />
+      <div class="modal__actions">
+        <button id="saveNameBtn"   class="btn btn--primary">Save</button>
+        <button id="cancelNameBtn" class="btn btn--secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
